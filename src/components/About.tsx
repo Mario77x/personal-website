@@ -2,7 +2,7 @@ import { Check } from "lucide-react";
 const About = () => {
   // Key points about Mario Savi
   const keyPoints = [
-    "14+ years working with digital products, 8 directly in product management",
+    "15 years working in tech, 8 directly in product management",
     "Experienced in creating exceptional user experiences across industries and domains",
     "Strong track record in optimizing product lifecycles and revenue growth",
     "Experienced in bridging technical and business stakeholders",
