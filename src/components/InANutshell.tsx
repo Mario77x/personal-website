@@ -2,8 +2,8 @@ import { Github, ExternalLink } from "lucide-react";
 
 const InANutshell = () => {
   const highlights = [
-    "14 years in digital, spanning experiences from start-ups to enterprises, mobile and desktop, SaaS and e-commerce.",
-    "3 years of Product leadership, empowering a tribe of three teams and two Senior PMs.",
+    "15 years in tech, spanning experiences from start-ups to enterprises, mobile and desktop, SaaS and e-commerce.",
+    "8 years of Product Management, leading cross-functional teams, owning end-to-end product lyfecycle",
     "Masters' in Communication and Media.",
   ];
 
