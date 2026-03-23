@@ -86,10 +86,10 @@ const Navbar = () => {
       {/* Mobile menu */}
       <div
         className={cn(
-          "fixed inset-0 bg-dark-bg/100 z-40 transform transition-transform duration-300 ease-in-out md:hidden",
+          "fixed inset-x-0 bottom-0 z-40 transform transition-transform duration-300 ease-in-out md:hidden",
           isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
         )}
-        style={{ top: '60px' }}
+        style={{ top: '60px', backgroundColor: '#0A0A0A' }}
       >
         <div className="flex flex-col space-y-8 p-8 pt-10">
           {navItems.map((item) => (
