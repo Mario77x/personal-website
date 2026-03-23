@@ -3,11 +3,13 @@ const About = () => {
   // Key points about Mario Savi
   const keyPoints = [
     "15 years working in tech, 8 directly in product management.",
-    "Experienced in creating exceptional user experiences across industries and domains.",
+    "Broad product, commercial, technical, and operational knowledge across SaaS and E-commerce products.",
     "Strong track record in optimizing product lifecycles and revenue growth.",
-    "Experienced in bridging technical and business stakeholders.",
+    "Expert in leading cross-functional teams, partnering closely with Engineers and UX/UI Designers",
+    "Experienced collaborating with business stakeholders, from C-level to individual contributors.",
     "Seasoned in driving data-driven approaches, and taking decissions even when data is limited.",
     "Consistent record of applying Agile methodologies to unlock team potential.",
+    "Currently growing my AI skills, building prototypes and staying up to date.",
   ];
   return (
     <section id="about" className="py-20 relative">
@@ -44,23 +46,8 @@ const About = () => {
             <h3 className="text-2xl md:text-3xl font-bold">Why should you pick me?</h3>
 
             <p className="text-gray-300 text-balance">
-              I'm a product leader with broad product, commercial, technical, and operational knowledge across SaaS and
-              E-commerce products.
-            </p>
-
-            <p className="text-gray-300 text-balance">
-              I apply data-driven decision-making to empower teams and drive growth, but my experience allows me to make
-              the call when data is not available.
-            </p>
-
-            <p className="text-gray-300 text-balance">
-              I see the problems and the opportunities, I take initiative, bring clarity, drive change, and deliver
-              results.
-            </p>
-
-            <p className="text-gray-300 text-balance">
               As a generalist PM, I bring a fresh look to any new domain, I learn fast any new technology, and I'm able
-              to deliver value from day one.
+              to deliver value from day one. I take initiative, bring clarity, drive change, and deliver results.
             </p>
 
             <ul className="space-y-3 mt-6">
