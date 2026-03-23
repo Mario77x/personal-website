@@ -86,7 +86,7 @@ const Navbar = () => {
       {/* Mobile menu */}
       <div
         className={cn(
-          "fixed inset-0 bg-dark-bg z-40 transform transition-transform duration-300 ease-in-out md:hidden",
+          "fixed inset-0 bg-dark-bg/100 z-40 transform transition-transform duration-300 ease-in-out md:hidden",
           isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
         )}
         style={{ top: '60px' }}
