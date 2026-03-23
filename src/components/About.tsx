@@ -5,7 +5,7 @@ const About = () => {
     "15 years working in tech, 8 directly in product management.",
     "Broad product, commercial, technical, and operational knowledge across SaaS and E-commerce products.",
     "Strong track record in optimizing product lifecycles and revenue growth.",
-    "Expert in leading cross-functional teams, partnering closely with Engineers and UX/UI Designers",
+    "Expert in leading cross-functional teams, partnering closely with Engineers and UX/UI Designers.",
     "Experienced collaborating with business stakeholders, from C-level to individual contributors.",
     "Seasoned in driving data-driven approaches, and taking decissions even when data is limited.",
     "Consistent record of applying Agile methodologies to unlock team potential.",
