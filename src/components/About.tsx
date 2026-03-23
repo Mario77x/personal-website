@@ -43,7 +43,7 @@ const About = () => {
 
           {/* About text */}
           <div className="space-y-6 reveal-on-scroll">
-            <h3 className="text-2xl md:text-3xl font-bold">Why should you pick me?</h3>
+            <h3 className="text-2xl md:text-3xl font-bold">Why I’m your next product leader</h3>
 
             <p className="text-gray-300 text-balance">
               As a generalist PM, I bring a fresh look to any new domain, I learn fast any new technology, and I'm able
