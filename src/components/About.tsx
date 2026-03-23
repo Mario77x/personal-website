@@ -41,21 +41,26 @@ const About = () => {
 
           {/* About text */}
           <div className="space-y-6 reveal-on-scroll">
-            <h3 className="text-2xl md:text-3xl font-bold">Product leadership for the next chapter of your company.</h3>
+            <h3 className="text-2xl md:text-3xl font-bold">Why should you pick me?</h3>
 
             <p className="text-gray-300 text-balance">
-              I'm a product leader with deep technical knowledge and extensive experience driving growth in both SaaS
-              and E-commerce products.
+              I'm a product leader with broad product, commercial, technical, and operational knowledge across SaaS and
+              E-commerce products.
             </p>
 
             <p className="text-gray-300 text-balance">
-              I apply data-driven decision making to empower teams to own product outcomes and help businesses evolve
-              towards a modern product operating system.
+              I apply data-driven decision-making to empower teams and drive growth, but my experience allows me to make
+              the call when data is not available.
             </p>
 
             <p className="text-gray-300 text-balance">
-              My expertise allows me to tailor best practices to each specific product and company reality, driving
-              product oucomes that delight users and increase revenue.
+              I see the problems and the opportunities, I take initiative, bring clarity, drive change, and deliver
+              results.
+            </p>
+
+            <p className="text-gray-300 text-balance">
+              As a generalist PM, I bring a fresh look to any new domain, I learn fast any new technology, and I'm able
+              to deliver value from day one.
             </p>
 
             <ul className="space-y-3 mt-6">
