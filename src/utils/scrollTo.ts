@@ -8,7 +8,7 @@ export const scrollTo = (id: string): void => {
   if (!element) return;
   
   window.scrollTo({
-    top: element.offsetTop - 80, // Offset for the navbar height
+    top: element.offsetTop - 100, // Offset for the navbar height
     behavior: 'smooth'
   });
 };
