@@ -4,11 +4,18 @@
  * @param id The ID of the element to scroll to
  */
 export const scrollTo = (id: string): void => {
-  const element = document.getElementById(id);
-  if (!element) return;
+  const section = document.getElementById(id);
+  if (!section) return;
+
+  const navbar = document.querySelector("nav");
+  const heading = section.querySelector<HTMLElement>("h1, h2, h3");
+  const targetElement = heading ?? section;
+  const navbarHeight = navbar instanceof HTMLElement ? navbar.offsetHeight : 0;
+  const spacingBelowNavbar = 16;
+  const targetTop = targetElement.getBoundingClientRect().top + window.scrollY - navbarHeight - spacingBelowNavbar;
   
   window.scrollTo({
-    top: element.offsetTop - 100, // Offset for the navbar height
+    top: Math.max(targetTop, 0),
     behavior: 'smooth'
   });
 };
