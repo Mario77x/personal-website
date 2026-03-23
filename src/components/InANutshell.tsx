@@ -50,7 +50,7 @@ const InANutshell = () => {
 
           {/* Training highlights */}
           <div className="glass-card p-6 text-left">
-            <h3 className="text-xl font-semibold mb-4 text-blue-light">Recent Training Highlights</h3>
+            <h3 className="text-xl font-semibold mb-4 text-blue-light">Training Highlights</h3>
             <div className="space-y-4">
               {trainingHighlights.map((training, index) => (
                 <div key={index} className="border-l-2 border-blue-accent/30 pl-4">
