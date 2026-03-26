@@ -73,8 +73,8 @@ const InANutshell = () => {
           </h3>
           <p className="text-gray-300 mb-4">Check my GitHub for hands-on experience with research and prototyping:</p>
           <ul className="text-gray-400 text-sm space-y-1 mb-4">
-            <li>• Coding exercises for different courses</li>
-            <li>• Basic prototypes for different projects</li>
+            <li>• Different coding exercises, projects and vibe-coded prototypes</li>
+            <li>• AI-enhanced prototype "Sunnyside" developed in October 2025 for the AI Product Bootcamp</li>
             <li>• This portfolio website you're currently visiting</li>
           </ul>
           <a
