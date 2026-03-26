@@ -1,50 +1,27 @@
 
 
-## Plan: Mobile Expand/Collapse for Experience Descriptions
+## Fix: Prevent scroll jumps on auto-collapse
 
-### What changes
+### The problem
 
-**File: `src/components/Experience.tsx`**
+When an expanded description auto-collapses (user clicks elsewhere or opens another block), the content height shrinks. If the collapsing block is above the user's current viewport position, everything shifts up, causing a visible "jump." The user loses their place.
 
-- Add `useState` to track which experience index is currently expanded (single value, not array — only one can be open at a time).
-- Use `useIsMobile()` hook to conditionally render the collapse/expand behavior only on mobile.
-- Add `useRef` array to reference each experience card for scroll-on-collapse.
-- Add a global click listener (`useEffect`) that auto-collapses the open description when the user clicks anywhere outside a "Read more" button.
+### The solution
 
-### Description rendering logic (mobile only)
+Before setting `expandedIndex` to null (or to a new index) during auto-collapse, measure and compensate for the height change:
 
-On desktop: no change — descriptions always visible.
+1. **Capture the collapsing block's content height** before it collapses (the description container's `scrollHeight`).
+2. **Check if the collapsing block is above the viewport** (its top is above the current scroll position).
+3. **If it is above**, immediately adjust `window.scrollTo` by subtracting the lost height, so the visible content stays in place. Use `behavior: "instant"` (no smooth scroll) to make it imperceptible.
 
-On mobile, the bullet-point description list is wrapped in a collapsible container:
+### Technical changes in `src/components/Experience.tsx`
 
-- **Collapsed (default):** Description hidden. A blue link-style button appears: `"Read more"` + `ChevronDown` icon. On hover it turns gray.
-- **Expanded:** Description visible with a smooth CSS height transition. Button changes to `"Close"` + `X` icon (same styling).
+- Store a ref to each description container (the `div` with `overflow-hidden`), not just the card.
+- In the global `mousedown` handler (auto-collapse path): before calling `setExpandedIndex(null)`, read the expanded description's `scrollHeight` and its card's position. After the state update (via a `useEffect` or `requestAnimationFrame`), adjust scroll if needed.
+- In `handleToggle` when opening a new block (which auto-collapses the previous one): same scroll compensation logic for the previously expanded block.
+- The explicit "Close" button path remains unchanged (it already scrolls to the card title intentionally).
 
-### Interaction behaviors
+### Why this works
 
-| Action | Result |
-|--------|--------|
-| Click "Read more" | Expand description. If another block was open, silently collapse it (no scroll). |
-| Click "Close" | Collapse description. Scroll so the card's title aligns to the top of the viewport (accounting for navbar height). |
-| Click anywhere else on page | Silently collapse any open description (no scroll). |
-
-### Scroll behavior details
-
-- **Expand:** No scroll — user stays where they are.
-- **Explicit close:** After collapse animation, scroll the card's top (title) into view using `scrollIntoView` or manual `scrollTo`, offset by navbar height.
-- **Auto-collapse (clicking another "Read more" or clicking elsewhere):** No scroll at all.
-
-### Technical approach
-
-- A single `expandedIndex: number | null` state determines which card is open.
-- A `collapseSource` ref distinguishes explicit close (user clicked "Close") from auto-collapse (clicked elsewhere), so we only scroll on explicit close.
-- Global `mousedown` listener on `document` detects outside clicks; checks if the click target is inside any "Read more"/"Close" button using a data attribute. If not, sets `expandedIndex` to `null`.
-- The description container uses `overflow-hidden` with `max-height` transition (or a simple conditional render) for smooth expand/collapse.
-- Each card gets a `ref` via a ref array; on explicit close, we call `scrollTo` targeting that ref's offsetTop minus navbar height.
-
-### Styling
-
-- Button: `text-blue-accent hover:text-gray-400 transition-colors text-sm flex items-center gap-1 mt-3`
-- Uses `ChevronDown` and `X` icons from lucide-react (already available in the project).
-- Consistent with existing design system — no new dependencies needed.
+The jump happens because the browser keeps `scrollY` constant while content above shrinks. By proactively subtracting the collapsed height from `scrollY`, the content the user is looking at stays visually pinned in place.
 
