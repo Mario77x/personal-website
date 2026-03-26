@@ -93,9 +93,19 @@ const Navbar = () => {
             "fixed inset-0 transform transition-transform duration-300 ease-in-out md:hidden",
             isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
           )}
-          style={{ zIndex: 10000, paddingTop: '70px', backgroundColor: 'hsl(0 0% 3.9%)' }}
+          style={{ zIndex: 10000, backgroundColor: 'hsl(0 0% 3.9%)' }}
         >
-          <div className="flex flex-col space-y-8 p-8 pt-10">
+          {/* Close button inside portal */}
+          <div className="flex justify-end px-4 pt-4">
+            <button
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="text-muted-foreground hover:text-foreground transition-colors duration-200 p-2"
+              aria-label="Close menu"
+            >
+              <X size={24} />
+            </button>
+          </div>
+          <div className="flex flex-col space-y-8 p-8 pt-6">
             {navItems.map((item) => (
               <a
                 key={item.name}
