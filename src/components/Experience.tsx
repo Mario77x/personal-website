@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useCallback } from "react";
 import { Briefcase, Building, ChevronDown, X } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -13,50 +13,12 @@ interface ExperienceItem {
 const Experience = () => {
   const isMobile = useIsMobile();
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
-  const collapseSource = useRef<"explicit" | "auto">("auto");
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const descriptionRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const toggleButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
-
-  const compensateScroll = useCallback((collapsingIndex: number) => {
-    const descEl = descriptionRefs.current[collapsingIndex];
-    const cardEl = cardRefs.current[collapsingIndex];
-    if (!descEl || !cardEl) return;
-    const contentHeight = descEl.scrollHeight;
-    const cardTop = cardEl.getBoundingClientRect().top;
-    // If the collapsing card is above the viewport, compensate scroll
-    if (cardTop < 0) {
-      window.scrollTo({ top: window.scrollY - contentHeight, behavior: "instant" as ScrollBehavior });
-    }
-  }, []);
-
-  // Global click listener: auto-collapse when clicking outside toggle buttons
-  useEffect(() => {
-    if (!isMobile) return;
-
-    const handleMouseDown = (e: MouseEvent) => {
-      if (expandedIndex === null) return;
-
-      // Check if click is on any toggle button
-      const isToggleButton = toggleButtonRefs.current.some(
-        (btn) => btn && btn.contains(e.target as Node)
-      );
-      if (!isToggleButton) {
-        compensateScroll(expandedIndex);
-        collapseSource.current = "auto";
-        setExpandedIndex(null);
-      }
-    };
-
-    document.addEventListener("mousedown", handleMouseDown);
-    return () => document.removeEventListener("mousedown", handleMouseDown);
-  }, [isMobile, expandedIndex]);
 
   const handleToggle = useCallback(
     (index: number) => {
       if (expandedIndex === index) {
-        // Explicit close
-        collapseSource.current = "explicit";
+        // Close
         setExpandedIndex(null);
 
         // Scroll to card title after collapse
@@ -72,11 +34,7 @@ const Experience = () => {
           }
         });
       } else {
-        // Opening a new one (auto-collapses previous silently)
-        if (expandedIndex !== null) {
-          compensateScroll(expandedIndex);
-        }
-        collapseSource.current = "auto";
+        // Open (allows multiple? No — just switch to new one)
         setExpandedIndex(index);
       }
     },
@@ -249,9 +207,6 @@ const Experience = () => {
                     {isMobile && (
                       <>
                         <div
-                          ref={(el) => {
-                            descriptionRefs.current[index] = el;
-                          }}
                           className="overflow-hidden transition-all duration-300 ease-in-out"
                           style={{
                             maxHeight:
@@ -272,9 +227,6 @@ const Experience = () => {
                         </div>
 
                         <button
-                          ref={(el) => {
-                            toggleButtonRefs.current[index] = el;
-                          }}
                           onClick={() => handleToggle(index)}
                           className="text-blue-accent hover:text-muted-foreground transition-colors text-sm flex items-center gap-1 mt-3"
                         >
