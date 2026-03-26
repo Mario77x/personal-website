@@ -15,7 +15,20 @@ const Experience = () => {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const collapseSource = useRef<"explicit" | "auto">("auto");
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const descriptionRefs = useRef<(HTMLDivElement | null)[]>([]);
   const toggleButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  const compensateScroll = useCallback((collapsingIndex: number) => {
+    const descEl = descriptionRefs.current[collapsingIndex];
+    const cardEl = cardRefs.current[collapsingIndex];
+    if (!descEl || !cardEl) return;
+    const contentHeight = descEl.scrollHeight;
+    const cardTop = cardEl.getBoundingClientRect().top;
+    // If the collapsing card is above the viewport, compensate scroll
+    if (cardTop < 0) {
+      window.scrollTo({ top: window.scrollY - contentHeight, behavior: "instant" as ScrollBehavior });
+    }
+  }, []);
 
   // Global click listener: auto-collapse when clicking outside toggle buttons
   useEffect(() => {
