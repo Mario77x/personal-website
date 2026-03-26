@@ -214,8 +214,8 @@ const Experience = () => {
                           className="overflow-hidden transition-all duration-300 ease-in-out"
                           style={{
                             maxHeight:
-                              expandedIndex === index ? "2000px" : "0px",
-                            opacity: expandedIndex === index ? 1 : 0,
+                              expandedIndices.has(index) ? "2000px" : "0px",
+                            opacity: expandedIndices.has(index) ? 1 : 0,
                           }}
                         >
                           <ul className="space-y-2">
@@ -234,7 +234,7 @@ const Experience = () => {
                           onClick={() => handleToggle(index)}
                           className="text-blue-accent hover:text-muted-foreground transition-colors text-sm flex items-center gap-1 mt-3"
                         >
-                          {expandedIndex === index ? (
+                          {expandedIndices.has(index) ? (
                             <>
                               Close <X size={14} />
                             </>
