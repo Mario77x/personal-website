@@ -12,33 +12,37 @@ interface ExperienceItem {
 
 const Experience = () => {
   const isMobile = useIsMobile();
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const [expandedIndices, setExpandedIndices] = useState<Set<number>>(new Set());
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const handleToggle = useCallback(
     (index: number) => {
-      if (expandedIndex === index) {
-        // Close
-        setExpandedIndex(null);
+      setExpandedIndices((prev) => {
+        const next = new Set(prev);
+        if (next.has(index)) {
+          // Close manually
+          next.delete(index);
 
-        // Scroll to card title after collapse
-        requestAnimationFrame(() => {
-          const card = cardRefs.current[index];
-          if (card) {
-            const navbar = document.querySelector("nav");
-            const navbarHeight =
-              navbar instanceof HTMLElement ? navbar.offsetHeight : 0;
-            const top =
-              card.getBoundingClientRect().top + window.scrollY - navbarHeight - 16;
-            window.scrollTo({ top: Math.max(top, 0), behavior: "smooth" });
-          }
-        });
-      } else {
-        // Open (allows multiple? No — just switch to new one)
-        setExpandedIndex(index);
-      }
+          // Scroll to card title after collapse
+          requestAnimationFrame(() => {
+            const card = cardRefs.current[index];
+            if (card) {
+              const navbar = document.querySelector("nav");
+              const navbarHeight =
+                navbar instanceof HTMLElement ? navbar.offsetHeight : 0;
+              const top =
+                card.getBoundingClientRect().top + window.scrollY - navbarHeight - 16;
+              window.scrollTo({ top: Math.max(top, 0), behavior: "smooth" });
+            }
+          });
+        } else {
+          // Open — no auto-collapse of others
+          next.add(index);
+        }
+        return next;
+      });
     },
-    [expandedIndex]
+    []
   );
 
   const experiences: ExperienceItem[] = [
