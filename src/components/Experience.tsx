@@ -208,7 +208,6 @@ const Experience = () => {
                       <>
                         <div
                           className="overflow-hidden transition-all duration-300 ease-in-out"
-                          className="overflow-hidden transition-all duration-300 ease-in-out"
                           style={{
                             maxHeight:
                               expandedIndex === index ? "2000px" : "0px",
@@ -228,7 +227,6 @@ const Experience = () => {
                         </div>
 
                         <button
-                          onClick={() => handleToggle(index)}
                           onClick={() => handleToggle(index)}
                           className="text-blue-accent hover:text-muted-foreground transition-colors text-sm flex items-center gap-1 mt-3"
                         >
