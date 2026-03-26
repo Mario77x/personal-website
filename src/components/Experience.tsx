@@ -42,6 +42,7 @@ const Experience = () => {
         (btn) => btn && btn.contains(e.target as Node)
       );
       if (!isToggleButton) {
+        compensateScroll(expandedIndex);
         collapseSource.current = "auto";
         setExpandedIndex(null);
       }
@@ -72,6 +73,9 @@ const Experience = () => {
         });
       } else {
         // Opening a new one (auto-collapses previous silently)
+        if (expandedIndex !== null) {
+          compensateScroll(expandedIndex);
+        }
         collapseSource.current = "auto";
         setExpandedIndex(index);
       }
