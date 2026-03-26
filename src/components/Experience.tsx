@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useCallback } from "react";
 import { Briefcase, Building, ChevronDown, X } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -207,9 +207,7 @@ const Experience = () => {
                     {isMobile && (
                       <>
                         <div
-                          ref={(el) => {
-                            descriptionRefs.current[index] = el;
-                          }}
+                          className="overflow-hidden transition-all duration-300 ease-in-out"
                           className="overflow-hidden transition-all duration-300 ease-in-out"
                           style={{
                             maxHeight:
@@ -230,9 +228,7 @@ const Experience = () => {
                         </div>
 
                         <button
-                          ref={(el) => {
-                            toggleButtonRefs.current[index] = el;
-                          }}
+                          onClick={() => handleToggle(index)}
                           onClick={() => handleToggle(index)}
                           className="text-blue-accent hover:text-muted-foreground transition-colors text-sm flex items-center gap-1 mt-3"
                         >
