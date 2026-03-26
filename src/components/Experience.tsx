@@ -1,4 +1,6 @@
-import { Briefcase, Building } from "lucide-react";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { Briefcase, Building, ChevronDown, X } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface ExperienceItem {
   title: string;
@@ -9,6 +11,61 @@ interface ExperienceItem {
 }
 
 const Experience = () => {
+  const isMobile = useIsMobile();
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const collapseSource = useRef<"explicit" | "auto">("auto");
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const toggleButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  // Global click listener: auto-collapse when clicking outside toggle buttons
+  useEffect(() => {
+    if (!isMobile) return;
+
+    const handleMouseDown = (e: MouseEvent) => {
+      if (expandedIndex === null) return;
+
+      // Check if click is on any toggle button
+      const isToggleButton = toggleButtonRefs.current.some(
+        (btn) => btn && btn.contains(e.target as Node)
+      );
+      if (!isToggleButton) {
+        collapseSource.current = "auto";
+        setExpandedIndex(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleMouseDown);
+    return () => document.removeEventListener("mousedown", handleMouseDown);
+  }, [isMobile, expandedIndex]);
+
+  const handleToggle = useCallback(
+    (index: number) => {
+      if (expandedIndex === index) {
+        // Explicit close
+        collapseSource.current = "explicit";
+        setExpandedIndex(null);
+
+        // Scroll to card title after collapse
+        requestAnimationFrame(() => {
+          const card = cardRefs.current[index];
+          if (card) {
+            const navbar = document.querySelector("nav");
+            const navbarHeight =
+              navbar instanceof HTMLElement ? navbar.offsetHeight : 0;
+            const top =
+              card.getBoundingClientRect().top + window.scrollY - navbarHeight - 16;
+            window.scrollTo({ top: Math.max(top, 0), behavior: "smooth" });
+          }
+        });
+      } else {
+        // Opening a new one (auto-collapses previous silently)
+        collapseSource.current = "auto";
+        setExpandedIndex(index);
+      }
+    },
+    [expandedIndex]
+  );
+
   const experiences: ExperienceItem[] = [
     {
       title: "Group Product Manager",
@@ -62,7 +119,7 @@ const Experience = () => {
       location: "Amsterdam (NL)",
       period: "January 2018 - December 2019",
       description: [
-        "Onboarded and provided strategic advice to large Enterprise accounts collaborating closely with Account Managers, often visiting customers’ offices in Europe.",
+        "Onboarded and provided strategic advice to large Enterprise accounts collaborating closely with Account Managers, often visiting customers' offices in Europe.",
         "Managed a Support team, ensuring timely and effective resolution of customer issues and acting as second line of support for complex technical issues.",
         "Drove improvements in adoption, retention and customer satisfaction across our customer base in EMEA + APAC.",
         "Collaborated with cross-functional teams to translate customer insights into tangible improvements that drove business outcomes.",
@@ -131,8 +188,15 @@ const Experience = () => {
                 </div>
 
                 {/* Content */}
-                <div className={`ml-12 md:ml-0 ${index % 2 === 0 ? "md:mr-[50%] md:pr-12" : "md:ml-[50%] md:pl-12"}`}>
-                  <div className="glass-card p-6 rounded-lg hover:shadow-blue-glow transition-shadow duration-300">
+                <div
+                  className={`ml-12 md:ml-0 ${index % 2 === 0 ? "md:mr-[50%] md:pr-12" : "md:ml-[50%] md:pl-12"}`}
+                >
+                  <div
+                    ref={(el) => {
+                      cardRefs.current[index] = el;
+                    }}
+                    className="glass-card p-6 rounded-lg hover:shadow-blue-glow transition-shadow duration-300"
+                  >
                     <div className="mb-4">
                       <h3 className="text-xl font-bold">{exp.title}</h3>
                     </div>
@@ -143,19 +207,69 @@ const Experience = () => {
                         {exp.company}
                       </div>
                       <div className="flex ml-6">
-                        <div className="text-sm text-gray-400">{exp.location}</div>
-                        <div className="text-sm text-gray-400 ml-2">| {exp.period}</div>
+                        <div className="text-sm text-gray-400">
+                          {exp.location}
+                        </div>
+                        <div className="text-sm text-gray-400 ml-2">
+                          | {exp.period}
+                        </div>
                       </div>
                     </div>
 
-                    <ul className="space-y-2">
-                      {exp.description.map((item, i) => (
-                        <li key={i} className="flex items-start">
-                          <span className="text-blue-accent mr-2">•</span>
-                          <span className="text-gray-300">{item}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    {/* Desktop: always show description */}
+                    {!isMobile && (
+                      <ul className="space-y-2">
+                        {exp.description.map((item, i) => (
+                          <li key={i} className="flex items-start">
+                            <span className="text-blue-accent mr-2">•</span>
+                            <span className="text-gray-300">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+
+                    {/* Mobile: expand/collapse */}
+                    {isMobile && (
+                      <>
+                        <div
+                          className="overflow-hidden transition-all duration-300 ease-in-out"
+                          style={{
+                            maxHeight:
+                              expandedIndex === index ? "2000px" : "0px",
+                            opacity: expandedIndex === index ? 1 : 0,
+                          }}
+                        >
+                          <ul className="space-y-2">
+                            {exp.description.map((item, i) => (
+                              <li key={i} className="flex items-start">
+                                <span className="text-blue-accent mr-2">
+                                  •
+                                </span>
+                                <span className="text-gray-300">{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        <button
+                          ref={(el) => {
+                            toggleButtonRefs.current[index] = el;
+                          }}
+                          onClick={() => handleToggle(index)}
+                          className="text-blue-accent hover:text-muted-foreground transition-colors text-sm flex items-center gap-1 mt-3"
+                        >
+                          {expandedIndex === index ? (
+                            <>
+                              Close <X size={14} />
+                            </>
+                          ) : (
+                            <>
+                              Read more <ChevronDown size={14} />
+                            </>
+                          )}
+                        </button>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
