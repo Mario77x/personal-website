@@ -249,6 +249,9 @@ const Experience = () => {
                     {isMobile && (
                       <>
                         <div
+                          ref={(el) => {
+                            descriptionRefs.current[index] = el;
+                          }}
                           className="overflow-hidden transition-all duration-300 ease-in-out"
                           style={{
                             maxHeight:
