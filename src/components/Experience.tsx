@@ -15,35 +15,30 @@ const Experience = () => {
   const [expandedIndices, setExpandedIndices] = useState<Set<number>>(new Set());
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  const handleToggle = useCallback(
-    (index: number) => {
-      setExpandedIndices((prev) => {
-        const next = new Set(prev);
-        if (next.has(index)) {
-          // Close manually
-          next.delete(index);
+  const handleToggle = useCallback((index: number) => {
+    setExpandedIndices((prev) => {
+      const next = new Set(prev);
+      if (next.has(index)) {
+        // Close manually
+        next.delete(index);
 
-          // Scroll to card title after collapse
-          requestAnimationFrame(() => {
-            const card = cardRefs.current[index];
-            if (card) {
-              const navbar = document.querySelector("nav");
-              const navbarHeight =
-                navbar instanceof HTMLElement ? navbar.offsetHeight : 0;
-              const top =
-                card.getBoundingClientRect().top + window.scrollY - navbarHeight - 16;
-              window.scrollTo({ top: Math.max(top, 0), behavior: "smooth" });
-            }
-          });
-        } else {
-          // Open — no auto-collapse of others
-          next.add(index);
-        }
-        return next;
-      });
-    },
-    []
-  );
+        // Scroll to card title after collapse
+        requestAnimationFrame(() => {
+          const card = cardRefs.current[index];
+          if (card) {
+            const navbar = document.querySelector("nav");
+            const navbarHeight = navbar instanceof HTMLElement ? navbar.offsetHeight : 0;
+            const top = card.getBoundingClientRect().top + window.scrollY - navbarHeight - 16;
+            window.scrollTo({ top: Math.max(top, 0), behavior: "smooth" });
+          }
+        });
+      } else {
+        // Open — no auto-collapse of others
+        next.add(index);
+      }
+      return next;
+    });
+  }, []);
 
   const experiences: ExperienceItem[] = [
     {
@@ -77,7 +72,7 @@ const Experience = () => {
     {
       title: "Product Owner",
       company: "VCSW",
-      location: "The Hague (NL)",
+      location: "The Hague (NL, Hybrid)",
       period: "February 2022 - August 2022",
       description: [
         "Owned the strategy and execution of a SaaS platform and the launch of an API connector in a highly regulated environment, at the intersection of payroll, legal and insurance.",
@@ -93,7 +88,7 @@ const Experience = () => {
     {
       title: "Product Owner",
       company: "Spaces (sister company of Regus)",
-      location: "Amsterdam (NL)",
+      location: "Amsterdam (NL, Hybrid)",
       period: "January 2020 - December 2021",
       description: [
         "Managed the spacesworks.com e-commerce platform offering +400 coworking and office space locations worldwide in more than 30 languages.",
@@ -108,7 +103,7 @@ const Experience = () => {
     {
       title: "Customer Experience Team Lead",
       company: "DoubleDutch mobile app by Cvent",
-      location: "Amsterdam (NL)",
+      location: "Amsterdam (NL, Hybrid)",
       period: "January 2018 - December 2019",
       description: [
         "Onboarded and provided strategic advice to large Enterprise accounts collaborating closely with Account Managers, often visiting customers' offices in Europe.",
@@ -120,7 +115,7 @@ const Experience = () => {
     {
       title: "Junior Product Owner",
       company: "Booking.com",
-      location: "Amsterdam (NL)",
+      location: "Amsterdam (NL, On-site)",
       period: "August 2015 - July 2017",
       description: [
         "Partially managed a product across two cross-functional teams (desktop and mobile apps) successfully increasing downloads, active users, opening rates, engagement, loyalty, and conversion, all of it through hypothesis-based A/B tests.",
@@ -131,7 +126,7 @@ const Experience = () => {
     {
       title: "Project Manager",
       company: "Booking.com",
-      location: "Amsterdam (NL)",
+      location: "Amsterdam (NL, On-site)",
       period: "December 2013 - July 2015",
       description: [
         "Successfully coordinated the production of content at scale for dozens of content projects aimed at A/B testing new features and launching new products that drove tangible learnings and conversion increases.",
@@ -143,7 +138,7 @@ const Experience = () => {
     {
       title: "Content Projects Editor",
       company: "Booking.com",
-      location: "Amsterdam (NL)",
+      location: "Amsterdam (NL, On-site)",
       period: "June 2011 - December 2013",
       description: [
         "Produced, curated and delivered uncountable pieces of content (copy, photos, user generated content) aimed at A/B testing new features and products that drove both learnings and conversion increases.",
@@ -180,9 +175,7 @@ const Experience = () => {
                 </div>
 
                 {/* Content */}
-                <div
-                  className={`ml-12 md:ml-0 ${index % 2 === 0 ? "md:mr-[50%] md:pr-12" : "md:ml-[50%] md:pl-12"}`}
-                >
+                <div className={`ml-12 md:ml-0 ${index % 2 === 0 ? "md:mr-[50%] md:pr-12" : "md:ml-[50%] md:pl-12"}`}>
                   <div
                     ref={(el) => {
                       cardRefs.current[index] = el;
@@ -199,12 +192,8 @@ const Experience = () => {
                         {exp.company}
                       </div>
                       <div className="flex ml-6">
-                        <div className="text-sm text-gray-400">
-                          {exp.location}
-                        </div>
-                        <div className="text-sm text-gray-400 ml-2">
-                          | {exp.period}
-                        </div>
+                        <div className="text-sm text-gray-400">{exp.location}</div>
+                        <div className="text-sm text-gray-400 ml-2">| {exp.period}</div>
                       </div>
                     </div>
 
@@ -226,17 +215,14 @@ const Experience = () => {
                         <div
                           className="overflow-hidden transition-all duration-300 ease-in-out"
                           style={{
-                            maxHeight:
-                              expandedIndices.has(index) ? "2000px" : "0px",
+                            maxHeight: expandedIndices.has(index) ? "2000px" : "0px",
                             opacity: expandedIndices.has(index) ? 1 : 0,
                           }}
                         >
                           <ul className="space-y-2">
                             {exp.description.map((item, i) => (
                               <li key={i} className="flex items-start">
-                                <span className="text-blue-accent mr-2">
-                                  •
-                                </span>
+                                <span className="text-blue-accent mr-2">•</span>
                                 <span className="text-gray-300">{item}</span>
                               </li>
                             ))}
