@@ -47,11 +47,10 @@ const Experience = () => {
       location: "Utrecht (NL, Hybrid)",
       period: "July 2026 - Present",
       description: [
-        "Leading two cross-functional teams in the Requests Cluster for the Axon Non-Life Insurance platform, a complex solution for insurance companies, leader in the Netherlands, and expanding to Belgium, Germany, the Nordics and beyond.",
-        "The Cluster takes care of complex workflows related to new policy requests, policy changes, policy management, and underwriting.",
-        "The Axon solution spans three different applications targeting specific use cases: external users (end customers of insurance companies), brokers/intermediaries selling insurance products on behalf of insurance companies, and internal insurance company users.",
-        "Additionally, the role requires managing complex direct requests from insurance companies seeking to adapt the Axon platform to their specific workflows and commercial needs.",
-        "As part of Axon's Product Management Team, I share responsibilities and coordinate with five Senior Product Owners managing all of Axon's different interconnected sub-domains.",
+        "Leading a cluster of two cross-functional teams, owning workflows and services for Keylane's leading solution in the Property & Casualty Insurance sector.,
+        "The cluster takes care of complex workflows related to new policy requests, policy changes, policy management, and underwriting.",
+        "The platform spans three different portals targeting specific use cases: external users (end customers of insurance companies), brokers/intermediaries selling insurance products on behalf of insurance companies, and internal insurance company users.",
+        "Additionally, the role requires managing complex direct requests from insurance companies seeking to adapt the platform to their specific workflows and commercial needs.",
       ],
     },
     {
